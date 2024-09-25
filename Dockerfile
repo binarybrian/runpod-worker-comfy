@@ -1,5 +1,6 @@
 # Stage 1: Base image with common dependencies
-FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
+#FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 as base
 
 # Prevents prompts from packages asking for user input during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -25,8 +26,9 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
-RUN pip3 install --upgrade --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
-    && pip3 install --upgrade -r requirements.txt
+RUN pip3 install --upgrade numpy \
+    && pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
+    && pip3 install -r requirements.txt
 
 # Install runpod
 RUN pip3 install runpod requests
@@ -50,11 +52,9 @@ ARG MODEL_TYPE
 # Change working directory to ComfyUI
 WORKDIR /comfyui
 
-# Create necessary directories
-RUN mkdir -p models/checkpoints models/vae
-
 # Download checkpoints/vae/LoRA to include in image based on model type
-RUN if [ "$MODEL_TYPE" = "sdxl" ]; then \
+RUN mkdir -p models/checkpoints models/vae && \
+    if [ "$MODEL_TYPE" = "sdxl" ]; then \
       wget -O models/checkpoints/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors && \
       wget -O models/vae/sdxl_vae.safetensors https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors && \
       wget -O models/vae/sdxl-vae-fp16-fix.safetensors https://huggingface.co/madebyollin/sdxl-vae-fp16-fix/resolve/main/sdxl_vae.safetensors; \
@@ -70,13 +70,42 @@ RUN if [ "$MODEL_TYPE" = "sdxl" ]; then \
       wget -O models/clip/clip_l.safetensors https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/clip_l.safetensors && \
       wget -O models/clip/t5xxl_fp8_e4m3fn.safetensors https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors && \
       wget --header="Authorization: Bearer ${HUGGINGFACE_ACCESS_TOKEN}" -O models/vae/ae.safetensors https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/ae.safetensors; \
+    else \
+      touch models/checkpoints/no-checkpoints.txt && \
+      touch models/vae/no-vae.txt; \
     fi
 
-# Stage 3: Final image
+# Stage 3: Download nodes
+FROM base as nodes
+
+WORKDIR /comfyui
+
+
+RUN git clone --recursive https://github.com/binarybrian/Winston custom_nodes/Winston && \
+    git clone --recursive https://github.com/rgthree/rgthree-comfy custom_nodes/rgthree-comfy && \
+    git clone --recursive https://github.com/giriss/comfy-image-saver custom_nodes/comfy-image-saver && \
+    git clone --recursive https://github.com/hylarucoder/ComfyUI-Eagle-PNGInfo custom_nodes/ComfyUI-Eagle-PNGInfo && \
+    git clone --recursive https://github.com/sipherxyz/comfyui-art-venture custom_nodes/comfyui-art-venture && \
+    git clone --recursive https://github.com/jags111/efficiency-nodes-comfyui custom_nodes/efficiency-nodes-comfyui && \
+    git clone --recursive https://github.com/ssitu/ComfyUI_UltimateSDUpscale custom_nodes/ComfyUI_UltimateSDUpscale && \
+    git clone --recursive https://github.com/melMass/comfy_mtb custom_nodes/comfy_mtb && \
+    git clone --recursive https://github.com/cubiq/ComfyUI_essentials custom_nodes/ComfyUI_essentials && \
+    git clone --recursive https://github.com/pythongosssss/ComfyUI-Custom-Scripts custom_nodes/ComfyUI-Custom-Scripts && \
+    git clone --recursive https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes custom_nodes/ComfyUI_Comfyroll_CustomNodes && \
+    git clone --recursive https://github.com/twri/sdxl_prompt_styler custom_nodes/sdxl_prompt_styler && \
+    git clone --recursive https://github.com/filliptm/ComfyUI_Fill-Nodes custom_nodes/ComfyUI_Fill-Nodes && \
+    git clone --recursive https://github.com/Derfuu/Derfuu_ComfyUI_ModdedNodes custom_nodes/Derfuu_ComfyUI_ModdedNodes && \
+    git clone --recursive https://github.com/ltdrdata/ComfyUI-Manager custom_nodes/ComfyUI-Manager && \
+    for dir in custom_nodes/*/; do if [ -f "$dir/requirements.txt" ]; then (cd "$dir" && pip3 install -r requirements.txt) || echo "Failed to install requirements in $dir"; fi; done;
+
+# Stage 4: Final image
 FROM base as final
 
 # Copy models from stage 2 to the final image
 COPY --from=downloader /comfyui/models /comfyui/models
+
+# Copy custom_nodes from stage 3 to the final image
+COPY --from=nodes /comfyui/custom_nodes /comfyui/custom_nodes
 
 # Start the container
 CMD /start.sh

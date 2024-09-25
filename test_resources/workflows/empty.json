@@ -1,0 +1,2456 @@
+{
+  "input": {
+    "workflow": {
+      "3": {
+        "inputs": {
+          "width": 1280,
+          "height": 768,
+          "aspect_ratio": "SDXL 9:16 portrait 768x1344",
+          "swap_dimensions": "Off",
+          "batch_size": 1
+        },
+        "class_type": "GENERAL Aspect Ratio",
+        "_meta": {
+          "title": "Aspect Ratios"
+        }
+      },
+      "7": {
+        "inputs": {
+          "text": [
+            "9",
+            0
+          ],
+          "clip": [
+            "805",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIP Text Encode (Prompt)"
+        }
+      },
+      "8": {
+        "inputs": {
+          "text": [
+            "9",
+            1
+          ],
+          "clip": [
+            "805",
+            1
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIP Text Encode (Prompt)"
+        }
+      },
+      "9": {
+        "inputs": {
+          "text_positive": [
+            "798",
+            0
+          ],
+          "text_negative": "",
+          "style": "base",
+          "log_prompt": true,
+          "style_positive": true,
+          "style_negative": false
+        },
+        "class_type": "SDXLPromptStyler",
+        "_meta": {
+          "title": "SDXL Prompt Styler"
+        }
+      },
+      "15": {
+        "inputs": {
+          "samples": [
+            "214",
+            6
+          ],
+          "vae": [
+            "214",
+            3
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "125": {
+        "inputs": {
+          "Value": 20
+        },
+        "class_type": "DF_Integer",
+        "_meta": {
+          "title": "Steps"
+        }
+      },
+      "155": {
+        "inputs": {
+          "scheduler": "ddim_uniform",
+          "steps": [
+            "125",
+            0
+          ],
+          "denoise": 1,
+          "model": [
+            "329",
+            0
+          ]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+          "title": "BasicScheduler"
+        }
+      },
+      "156": {
+        "inputs": {
+          "noise": [
+            "158",
+            0
+          ],
+          "guider": [
+            "157",
+            0
+          ],
+          "sampler": [
+            "159",
+            0
+          ],
+          "sigmas": [
+            "155",
+            0
+          ],
+          "latent_image": [
+            "212",
+            6
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "157": {
+        "inputs": {
+          "model": [
+            "329",
+            0
+          ],
+          "conditioning": [
+            "264",
+            0
+          ]
+        },
+        "class_type": "BasicGuider",
+        "_meta": {
+          "title": "BasicGuider"
+        }
+      },
+      "158": {
+        "inputs": {
+          "noise_seed": [
+            "785",
+            0
+          ]
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "RandomNoise"
+        }
+      },
+      "159": {
+        "inputs": {
+          "sampler_name": "ddim"
+        },
+        "class_type": "KSamplerSelect",
+        "_meta": {
+          "title": "KSamplerSelect"
+        }
+      },
+      "212": {
+        "inputs": {
+          "model": [
+            "808",
+            0
+          ],
+          "clip": [
+            "809",
+            0
+          ],
+          "vae": [
+            "296",
+            0
+          ],
+          "latent": [
+            "281",
+            0
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "214": {
+        "inputs": {
+          "base_ctx": [
+            "212",
+            0
+          ],
+          "positive": [
+            "264",
+            0
+          ],
+          "negative": [
+            "402",
+            0
+          ],
+          "latent": [
+            "156",
+            1
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "236": {
+        "inputs": {
+          "unet_name": "copaxTimelessxl_xplus1.safetensors",
+          "weight_dtype": "fp8_e4m3fn"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+          "title": "Load Diffusion Model"
+        }
+      },
+      "237": {
+        "inputs": {
+          "clip_name1": "t5xxl_fp16.safetensors",
+          "clip_name2": "clip_l.safetensors",
+          "type": "flux"
+        },
+        "class_type": "DualCLIPLoader",
+        "_meta": {
+          "title": "DualCLIPLoader"
+        }
+      },
+      "264": {
+        "inputs": {
+          "guidance": 3.5,
+          "conditioning": [
+            "792",
+            0
+          ]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+          "title": "FluxGuidance"
+        }
+      },
+      "273": {
+        "inputs": {
+          "filename_prefix": "Upscale-None",
+          "images": [
+            "15",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "Save Image"
+        }
+      },
+      "281": {
+        "inputs": {
+          "width": [
+            "3",
+            0
+          ],
+          "height": [
+            "3",
+            1
+          ],
+          "batch_size": [
+            "3",
+            2
+          ]
+        },
+        "class_type": "EmptySD3LatentImage",
+        "_meta": {
+          "title": "EmptySD3LatentImage"
+        }
+      },
+      "296": {
+        "inputs": {
+          "vae_name": "ae.sft"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+          "title": "Load VAE"
+        }
+      },
+      "329": {
+        "inputs": {
+          "max_shift": 1.1500000000000001,
+          "base_shift": 0.5,
+          "width": [
+            "3",
+            0
+          ],
+          "height": [
+            "3",
+            1
+          ],
+          "model": [
+            "805",
+            0
+          ]
+        },
+        "class_type": "ModelSamplingFlux",
+        "_meta": {
+          "title": "ModelSamplingFlux"
+        }
+      },
+      "402": {
+        "inputs": {
+          "conditioning": [
+            "8",
+            0
+          ]
+        },
+        "class_type": "ConditioningZeroOut",
+        "_meta": {
+          "title": "ConditioningZeroOut"
+        }
+      },
+      "403": {
+        "inputs": {
+          "rgthree_comparer": {
+            "images": [
+              {
+                "name": "A",
+                "selected": true,
+                "url": "/api/view?filename=rgthree.compare._temp_dmpgp_00011_.png&type=temp&subfolder=&rand=0.1591974435147563"
+              },
+              {
+                "name": "B",
+                "selected": true,
+                "url": "/api/view?filename=rgthree.compare._temp_dmpgp_00012_.png&type=temp&subfolder=&rand=0.9544361739104024"
+              }
+            ]
+          },
+          "image_a": [
+            "15",
+            0
+          ],
+          "image_b": [
+            "505",
+            0
+          ]
+        },
+        "class_type": "Image Comparer (rgthree)",
+        "_meta": {
+          "title": "Image Comparer (rgthree)"
+        }
+      },
+      "423": {
+        "inputs": {
+          "upscale_method": "bicubic",
+          "width": [
+            "513",
+            0
+          ],
+          "height": [
+            "514",
+            0
+          ],
+          "crop": "disabled",
+          "samples": [
+            "437",
+            6
+          ]
+        },
+        "class_type": "LatentUpscale",
+        "_meta": {
+          "title": "Upscale Latent"
+        }
+      },
+      "437": {
+        "inputs": {
+          "base_ctx": [
+            "763",
+            0
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "438": {
+        "inputs": {
+          "value": [
+            "816",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Width🐍"
+        }
+      },
+      "439": {
+        "inputs": {
+          "value": [
+            "816",
+            2
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "448": {
+        "inputs": {
+          "value": [
+            "833",
+            1
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "449": {
+        "inputs": {
+          "value": [
+            "839",
+            1
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "450": {
+        "inputs": {
+          "value": [
+            "831",
+            1
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "451": {
+        "inputs": {
+          "value": [
+            "815",
+            2
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "452": {
+        "inputs": {
+          "value": [
+            "815",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "453": {
+        "inputs": {
+          "value": [
+            "817",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "454": {
+        "inputs": {
+          "value": [
+            "817",
+            2
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "455": {
+        "inputs": {
+          "max_shift": 1.15,
+          "base_shift": 0.5,
+          "width": [
+            "457",
+            0
+          ],
+          "height": [
+            "458",
+            0
+          ],
+          "model": [
+            "437",
+            1
+          ]
+        },
+        "class_type": "ModelSamplingFlux",
+        "_meta": {
+          "title": "ModelSamplingFlux"
+        }
+      },
+      "456": {
+        "inputs": {
+          "width": [
+            "457",
+            0
+          ],
+          "height": [
+            "458",
+            0
+          ],
+          "x": [
+            "453",
+            0
+          ],
+          "y": [
+            "454",
+            0
+          ],
+          "samples": [
+            "468",
+            0
+          ]
+        },
+        "class_type": "LatentCrop",
+        "_meta": {
+          "title": "Lower Tile"
+        }
+      },
+      "457": {
+        "inputs": {
+          "value": [
+            "814",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "458": {
+        "inputs": {
+          "value": [
+            "814",
+            2
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "459": {
+        "inputs": {
+          "model": [
+            "515",
+            0
+          ],
+          "conditioning": [
+            "516",
+            0
+          ]
+        },
+        "class_type": "BasicGuider",
+        "_meta": {
+          "title": "BasicGuider"
+        }
+      },
+      "460": {
+        "inputs": {
+          "scheduler": "sgm_uniform",
+          "steps": [
+            "463",
+            0
+          ],
+          "denoise": [
+            "462",
+            0
+          ],
+          "model": [
+            "455",
+            0
+          ]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+          "title": "BasicScheduler"
+        }
+      },
+      "461": {
+        "inputs": {
+          "denoise": [
+            "449",
+            0
+          ],
+          "sigmas": [
+            "460",
+            0
+          ]
+        },
+        "class_type": "SplitSigmasDenoise",
+        "_meta": {
+          "title": "SplitSigmasDenoise"
+        }
+      },
+      "462": {
+        "inputs": {
+          "value": [
+            "832",
+            1
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "463": {
+        "inputs": {
+          "value": [
+            "837",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "464": {
+        "inputs": {
+          "noise": [
+            "465",
+            0
+          ],
+          "guider": [
+            "475",
+            0
+          ],
+          "sampler": [
+            "476",
+            0
+          ],
+          "sigmas": [
+            "461",
+            0
+          ],
+          "latent_image": [
+            "456",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "465": {
+        "inputs": {
+          "noise_seed": [
+            "801",
+            0
+          ]
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "RandomNoise"
+        }
+      },
+      "466": {
+        "inputs": {
+          "noise": [
+            "472",
+            0
+          ],
+          "guider": [
+            "459",
+            0
+          ],
+          "sampler": [
+            "476",
+            0
+          ],
+          "sigmas": [
+            "478",
+            0
+          ],
+          "latent_image": [
+            "469",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "467": {
+        "inputs": {},
+        "class_type": "DisableNoise",
+        "_meta": {
+          "title": "DisableNoise"
+        }
+      },
+      "468": {
+        "inputs": {
+          "value": [
+            "423",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "469": {
+        "inputs": {
+          "width": [
+            "457",
+            0
+          ],
+          "height": [
+            "458",
+            0
+          ],
+          "x": 0,
+          "y": 0,
+          "samples": [
+            "468",
+            0
+          ]
+        },
+        "class_type": "LatentCrop",
+        "_meta": {
+          "title": "Upper Tile"
+        }
+      },
+      "470": {
+        "inputs": {
+          "guidance": [
+            "450",
+            0
+          ],
+          "conditioning": [
+            "517",
+            0
+          ]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+          "title": "FluxGuidance"
+        }
+      },
+      "471": {
+        "inputs": {
+          "noise": [
+            "467",
+            0
+          ],
+          "guider": [
+            "459",
+            0
+          ],
+          "sampler": [
+            "476",
+            0
+          ],
+          "sigmas": [
+            "478",
+            1
+          ],
+          "latent_image": [
+            "485",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "472": {
+        "inputs": {
+          "noise_seed": [
+            "788",
+            0
+          ]
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "RandomNoise"
+        }
+      },
+      "473": {
+        "inputs": {
+          "noise": [
+            "474",
+            0
+          ],
+          "guider": [
+            "475",
+            0
+          ],
+          "sampler": [
+            "476",
+            0
+          ],
+          "sigmas": [
+            "461",
+            1
+          ],
+          "latent_image": [
+            "484",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "474": {
+        "inputs": {},
+        "class_type": "DisableNoise",
+        "_meta": {
+          "title": "DisableNoise"
+        }
+      },
+      "475": {
+        "inputs": {
+          "model": [
+            "455",
+            0
+          ],
+          "conditioning": [
+            "470",
+            0
+          ]
+        },
+        "class_type": "BasicGuider",
+        "_meta": {
+          "title": "BasicGuider"
+        }
+      },
+      "476": {
+        "inputs": {
+          "value": [
+            "159",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "477": {
+        "inputs": {
+          "scheduler": "sgm_uniform",
+          "steps": [
+            "463",
+            0
+          ],
+          "denoise": [
+            "462",
+            0
+          ],
+          "model": [
+            "515",
+            0
+          ]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+          "title": "BasicScheduler"
+        }
+      },
+      "478": {
+        "inputs": {
+          "denoise": [
+            "449",
+            0
+          ],
+          "sigmas": [
+            "477",
+            0
+          ]
+        },
+        "class_type": "SplitSigmasDenoise",
+        "_meta": {
+          "title": "SplitSigmasDenoise"
+        }
+      },
+      "479": {
+        "inputs": {
+          "samples": [
+            "471",
+            1
+          ],
+          "vae": [
+            "481",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "480": {
+        "inputs": {
+          "samples": [
+            "473",
+            1
+          ],
+          "vae": [
+            "481",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "481": {
+        "inputs": {
+          "value": [
+            "437",
+            3
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "482": {
+        "inputs": {
+          "images": [
+            "479",
+            0
+          ]
+        },
+        "class_type": "PreviewImage",
+        "_meta": {
+          "title": "Preview Image"
+        }
+      },
+      "483": {
+        "inputs": {
+          "images": [
+            "480",
+            0
+          ]
+        },
+        "class_type": "PreviewImage",
+        "_meta": {
+          "title": "Preview Image"
+        }
+      },
+      "484": {
+        "inputs": {
+          "noise_seed": 1,
+          "noise_strength": [
+            "448",
+            0
+          ],
+          "normalize": "true",
+          "latent": [
+            "464",
+            0
+          ]
+        },
+        "class_type": "InjectLatentNoise+",
+        "_meta": {
+          "title": "🔧 Inject Latent Noise"
+        }
+      },
+      "485": {
+        "inputs": {
+          "noise_seed": 1,
+          "noise_strength": [
+            "448",
+            0
+          ],
+          "normalize": "true",
+          "latent": [
+            "466",
+            0
+          ]
+        },
+        "class_type": "InjectLatentNoise+",
+        "_meta": {
+          "title": "🔧 Inject Latent Noise"
+        }
+      },
+      "486": {
+        "inputs": {
+          "value": 1,
+          "width": [
+            "489",
+            0
+          ],
+          "height": [
+            "490",
+            0
+          ]
+        },
+        "class_type": "SolidMask",
+        "_meta": {
+          "title": "SolidMask"
+        }
+      },
+      "487": {
+        "inputs": {
+          "left": [
+            "511",
+            0
+          ],
+          "top": [
+            "512",
+            0
+          ],
+          "right": 0,
+          "bottom": 0,
+          "mask": [
+            "486",
+            0
+          ]
+        },
+        "class_type": "FeatherMask",
+        "_meta": {
+          "title": "FeatherMask"
+        }
+      },
+      "488": {
+        "inputs": {
+          "x": 0,
+          "y": 0,
+          "resize_source": false,
+          "destination": [
+            "491",
+            0
+          ],
+          "source": [
+            "471",
+            1
+          ]
+        },
+        "class_type": "LatentCompositeMasked",
+        "_meta": {
+          "title": "LatentCompositeMasked"
+        }
+      },
+      "489": {
+        "inputs": {
+          "value": [
+            "457",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "490": {
+        "inputs": {
+          "value": [
+            "458",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "491": {
+        "inputs": {
+          "width": [
+            "494",
+            0
+          ],
+          "height": [
+            "495",
+            0
+          ],
+          "batch_size": 1
+        },
+        "class_type": "EmptySD3LatentImage",
+        "_meta": {
+          "title": "EmptySD3LatentImage"
+        }
+      },
+      "492": {
+        "inputs": {
+          "value": [
+            "816",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "493": {
+        "inputs": {
+          "value": [
+            "816",
+            2
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "494": {
+        "inputs": {
+          "value": [
+            "492",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "495": {
+        "inputs": {
+          "value": [
+            "493",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "496": {
+        "inputs": {
+          "x": [
+            "509",
+            0
+          ],
+          "y": [
+            "510",
+            0
+          ],
+          "resize_source": false,
+          "destination": [
+            "488",
+            0
+          ],
+          "source": [
+            "473",
+            1
+          ],
+          "mask": [
+            "487",
+            0
+          ]
+        },
+        "class_type": "LatentCompositeMasked",
+        "_meta": {
+          "title": "LatentCompositeMasked"
+        }
+      },
+      "497": {
+        "inputs": {
+          "noise_seed": 9999,
+          "noise_strength": [
+            "860",
+            1
+          ],
+          "normalize": "true",
+          "latent": [
+            "496",
+            0
+          ]
+        },
+        "class_type": "InjectLatentNoise+",
+        "_meta": {
+          "title": "🔧 Inject Latent Noise"
+        }
+      },
+      "498": {
+        "inputs": {
+          "max_shift": 1.15,
+          "base_shift": 0.5,
+          "width": [
+            "507",
+            0
+          ],
+          "height": [
+            "508",
+            0
+          ],
+          "model": [
+            "542",
+            1
+          ]
+        },
+        "class_type": "ModelSamplingFlux",
+        "_meta": {
+          "title": "ModelSamplingFlux"
+        }
+      },
+      "499": {
+        "inputs": {
+          "model": [
+            "498",
+            0
+          ],
+          "conditioning": [
+            "503",
+            0
+          ]
+        },
+        "class_type": "BasicGuider",
+        "_meta": {
+          "title": "BasicGuider"
+        }
+      },
+      "500": {
+        "inputs": {
+          "noise": [
+            "506",
+            0
+          ],
+          "guider": [
+            "499",
+            0
+          ],
+          "sampler": [
+            "504",
+            0
+          ],
+          "sigmas": [
+            "501",
+            0
+          ],
+          "latent_image": [
+            "497",
+            0
+          ]
+        },
+        "class_type": "SamplerCustomAdvanced",
+        "_meta": {
+          "title": "SamplerCustomAdvanced"
+        }
+      },
+      "501": {
+        "inputs": {
+          "scheduler": "sgm_uniform",
+          "steps": 16,
+          "denoise": 0.26,
+          "model": [
+            "498",
+            0
+          ]
+        },
+        "class_type": "BasicScheduler",
+        "_meta": {
+          "title": "BasicScheduler"
+        }
+      },
+      "503": {
+        "inputs": {
+          "guidance": 2.8000000000000003,
+          "conditioning": [
+            "542",
+            4
+          ]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+          "title": "FluxGuidance"
+        }
+      },
+      "504": {
+        "inputs": {
+          "value": [
+            "476",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "505": {
+        "inputs": {
+          "samples": [
+            "500",
+            1
+          ],
+          "vae": [
+            "542",
+            3
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAE Decode"
+        }
+      },
+      "506": {
+        "inputs": {
+          "noise_seed": 1000000
+        },
+        "class_type": "RandomNoise",
+        "_meta": {
+          "title": "RandomNoise"
+        }
+      },
+      "507": {
+        "inputs": {
+          "value": [
+            "494",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "508": {
+        "inputs": {
+          "value": [
+            "495",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "509": {
+        "inputs": {
+          "value": [
+            "453",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "510": {
+        "inputs": {
+          "value": [
+            "454",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "511": {
+        "inputs": {
+          "value": [
+            "451",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "512": {
+        "inputs": {
+          "value": [
+            "452",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "513": {
+        "inputs": {
+          "value": [
+            "438",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "514": {
+        "inputs": {
+          "value": [
+            "439",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "515": {
+        "inputs": {
+          "max_shift": 1.15,
+          "base_shift": 0.5,
+          "width": [
+            "457",
+            0
+          ],
+          "height": [
+            "458",
+            0
+          ],
+          "model": [
+            "437",
+            1
+          ]
+        },
+        "class_type": "ModelSamplingFlux",
+        "_meta": {
+          "title": "ModelSamplingFlux"
+        }
+      },
+      "516": {
+        "inputs": {
+          "guidance": [
+            "450",
+            0
+          ],
+          "conditioning": [
+            "518",
+            0
+          ]
+        },
+        "class_type": "FluxGuidance",
+        "_meta": {
+          "title": "FluxGuidance"
+        }
+      },
+      "517": {
+        "inputs": {
+          "text": [
+            "804",
+            0
+          ],
+          "clip": [
+            "437",
+            2
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIP Text Encode (Prompt)"
+        }
+      },
+      "518": {
+        "inputs": {
+          "text": [
+            "803",
+            0
+          ],
+          "clip": [
+            "437",
+            2
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIP Text Encode (Prompt)"
+        }
+      },
+      "520": {
+        "inputs": {
+          "filename_prefix": "Latent-Detail",
+          "images": [
+            "505",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "Save Image"
+        }
+      },
+      "542": {
+        "inputs": {
+          "base_ctx": [
+            "437",
+            0
+          ],
+          "positive": [
+            "767",
+            0
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "548": {
+        "inputs": {
+          "any_01": [
+            "505",
+            0
+          ],
+          "any_02": [
+            "15",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "551": {
+        "inputs": {
+          "base_ctx": [
+            "214",
+            0
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "552": {
+        "inputs": {
+          "model_name": "4xLSDIRDAT.pth"
+        },
+        "class_type": "UpscaleModelLoader",
+        "_meta": {
+          "title": "Load Upscale Model"
+        }
+      },
+      "553": {
+        "inputs": {
+          "slicing": "2x2",
+          "multiplier": 1.5,
+          "image": [
+            "548",
+            0
+          ]
+        },
+        "class_type": "FL_SDUltimate_Slices",
+        "_meta": {
+          "title": "FL SDUltimate Slices"
+        }
+      },
+      "554": {
+        "inputs": {
+          "filename_prefix": "Upscale-Ultimate",
+          "images": [
+            "879",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "Save Image"
+        }
+      },
+      "763": {
+        "inputs": {
+          "base_ctx": [
+            "212",
+            0
+          ],
+          "latent": [
+            "156",
+            1
+          ]
+        },
+        "class_type": "Context (rgthree)",
+        "_meta": {
+          "title": "Context (rgthree)"
+        }
+      },
+      "767": {
+        "inputs": {
+          "value": [
+            "7",
+            0
+          ]
+        },
+        "class_type": "ReroutePrimitive|pysssss",
+        "_meta": {
+          "title": "Reroute Primitive 🐍"
+        }
+      },
+      "785": {
+        "inputs": {
+          "seed": 2024
+        },
+        "class_type": "Seed (rgthree)",
+        "_meta": {
+          "title": "Seed (rgthree)"
+        }
+      },
+      "788": {
+        "inputs": {
+          "value": "c or (a+b)",
+          "a": [
+            "785",
+            0
+          ],
+          "b": [
+            "790",
+            0
+          ],
+          "c": [
+            "863",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "🔧 Simple Math"
+        }
+      },
+      "790": {
+        "inputs": {
+          "value": 1
+        },
+        "class_type": "SimpleMathInt+",
+        "_meta": {
+          "title": "🔧 Simple Math Int"
+        }
+      },
+      "792": {
+        "inputs": {
+          "any_02": [
+            "7",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "793": {
+        "inputs": {
+          "string": ""
+        },
+        "class_type": "String Literal",
+        "_meta": {
+          "title": "CLIP_L"
+        }
+      },
+      "794": {
+        "inputs": {
+          "string": ""
+        },
+        "class_type": "String Literal",
+        "_meta": {
+          "title": "T5XXL"
+        }
+      },
+      "798": {
+        "inputs": {
+          "string": "photo of a 20yo woman with long wavy cherry red hair, light blue eyes, narrow waist, slender legs, very beautiful, kpop\n\nShe wears a black hairband. She wears a short turtleneck black dress with high collar, open cleavage and billowy sweep.  She wears fitted high heel thigh-length leather boots.\n\nShe stands in a elegant ballroom with white marble floors, stonework with bronze inlay, long blue curtains hang from large windows streaming sunlight.\n\nfull shot, 35mm, Nikon, high quality, high resolution, natural lighting, professional"
+        },
+        "class_type": "String Literal",
+        "_meta": {
+          "title": "String Literal"
+        }
+      },
+      "801": {
+        "inputs": {
+          "value": "c or (max(a,2)-b)",
+          "a": [
+            "785",
+            0
+          ],
+          "b": [
+            "802",
+            0
+          ],
+          "c": [
+            "864",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "🔧 Simple Math"
+        }
+      },
+      "802": {
+        "inputs": {
+          "value": 1
+        },
+        "class_type": "SimpleMathInt+",
+        "_meta": {
+          "title": "🔧 Simple Math Int"
+        }
+      },
+      "803": {
+        "inputs": {
+          "any_02": [
+            "9",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "804": {
+        "inputs": {
+          "any_02": [
+            "9",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "805": {
+        "inputs": {
+          "model": [
+            "212",
+            1
+          ],
+          "clip": [
+            "212",
+            2
+          ],
+          "lora_stack": [
+            "902",
+            0
+          ]
+        },
+        "class_type": "CR Apply LoRA Stack",
+        "_meta": {
+          "title": "💊 CR Apply LoRA Stack"
+        }
+      },
+      "808": {
+        "inputs": {
+          "any_02": [
+            "236",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "809": {
+        "inputs": {
+          "any_02": [
+            "237",
+            0
+          ]
+        },
+        "class_type": "Any Switch (rgthree)",
+        "_meta": {
+          "title": "Any Switch (rgthree)"
+        }
+      },
+      "810": {
+        "inputs": {
+          "value": "136+(a-1.0)*(188-136)/(2.0-1.0)",
+          "a": [
+            "827",
+            1
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Tile Overlap"
+        }
+      },
+      "813": {
+        "inputs": {
+          "value_1": "(a>=b)*(a/2+c)+(a<b)*a",
+          "value_2": "(a<b)*(b/2+c)+(a>=b)*b",
+          "a": [
+            "816",
+            0
+          ],
+          "b": [
+            "816",
+            2
+          ],
+          "c": [
+            "810",
+            0
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "Tile W/H"
+        }
+      },
+      "814": {
+        "inputs": {
+          "value_1": "a-(a%8)",
+          "value_2": "b-(b%8)",
+          "a": [
+            "813",
+            0
+          ],
+          "b": [
+            "813",
+            2
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "Tile W/H Norm"
+        }
+      },
+      "815": {
+        "inputs": {
+          "value_1": "(a==0)*b",
+          "value_2": "(a>0)*b",
+          "a": [
+            "817",
+            0
+          ],
+          "b": [
+            "810",
+            0
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "Left/Top Feathering"
+        }
+      },
+      "816": {
+        "inputs": {
+          "value_1": "a*c-((a*c)%8)",
+          "value_2": "b*c-((b*c)%8)",
+          "a": [
+            "3",
+            0
+          ],
+          "b": [
+            "3",
+            1
+          ],
+          "c": [
+            "827",
+            1
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "Final Image W/H"
+        }
+      },
+      "817": {
+        "inputs": {
+          "value_1": "(a>=b)*(a-c)",
+          "value_2": "(a<b)*(b-d)",
+          "a": [
+            "816",
+            0
+          ],
+          "b": [
+            "816",
+            2
+          ],
+          "c": [
+            "814",
+            0
+          ],
+          "d": [
+            "814",
+            2
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "X/Y Offset"
+        }
+      },
+      "826": {
+        "inputs": {
+          "value": 1.5
+        },
+        "class_type": "SimpleMathFloat+",
+        "_meta": {
+          "title": "Scale factor"
+        }
+      },
+      "827": {
+        "inputs": {
+          "value": "max(min(a, 2), 1)",
+          "a": [
+            "826",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "normalize"
+        }
+      },
+      "830": {
+        "inputs": {
+          "value": 3.2
+        },
+        "class_type": "SimpleMathFloat+",
+        "_meta": {
+          "title": "Tiles guidance"
+        }
+      },
+      "831": {
+        "inputs": {
+          "value": "max(min(a, 5), 0)",
+          "a": [
+            "830",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "normalized"
+        }
+      },
+      "832": {
+        "inputs": {
+          "value": "round(0.46+a*(0.72-0.46), 2)",
+          "a": [
+            "834",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Denoise"
+        }
+      },
+      "833": {
+        "inputs": {
+          "value": "round(0.38+a*(0.52-0.38), 2)",
+          "a": [
+            "838",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Noise strength"
+        }
+      },
+      "834": {
+        "inputs": {
+          "value": 0.72,
+          "min": 0,
+          "max": 1,
+          "rounding": 0
+        },
+        "class_type": "SimpleMathSlider+",
+        "_meta": {
+          "title": "Variation over 1st pass"
+        }
+      },
+      "835": {
+        "inputs": {
+          "value": 0.5,
+          "min": 0,
+          "max": 1,
+          "rounding": 0
+        },
+        "class_type": "SimpleMathSlider+",
+        "_meta": {
+          "title": "« speed --- accuracy »"
+        }
+      },
+      "836": {
+        "inputs": {
+          "value_1": "12+(a-0.46)*(15-12)/(0.72-0.46)",
+          "value_2": "26+(a-0.46)*(35-26)/(0.72-0.46)",
+          "a": [
+            "832",
+            1
+          ]
+        },
+        "class_type": "SimpleMathDual+",
+        "_meta": {
+          "title": "🔧 Simple Math Dual"
+        }
+      },
+      "837": {
+        "inputs": {
+          "value": "a+c*(b-a)",
+          "a": [
+            "836",
+            1
+          ],
+          "b": [
+            "836",
+            3
+          ],
+          "c": [
+            "835",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Steps"
+        }
+      },
+      "838": {
+        "inputs": {
+          "value": 0.853,
+          "min": 0,
+          "max": 1,
+          "rounding": 0
+        },
+        "class_type": "SimpleMathSlider+",
+        "_meta": {
+          "title": "Noise strength"
+        }
+      },
+      "839": {
+        "inputs": {
+          "value": "round(0.5+a*(0.72-0.5), 2)",
+          "a": [
+            "840",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Sigma split"
+        }
+      },
+      "840": {
+        "inputs": {
+          "value": 0.23,
+          "min": 0,
+          "max": 1,
+          "rounding": 0
+        },
+        "class_type": "SimpleMathSlider+",
+        "_meta": {
+          "title": "« rough --- smooth »"
+        }
+      },
+      "860": {
+        "inputs": {
+          "value": "round(0.4+a*(0.7-0.4), 2)",
+          "a": [
+            "861",
+            0
+          ]
+        },
+        "class_type": "SimpleMath+",
+        "_meta": {
+          "title": "Noise strength"
+        }
+      },
+      "861": {
+        "inputs": {
+          "value": 0.5,
+          "min": 0,
+          "max": 1,
+          "rounding": 0
+        },
+        "class_type": "SimpleMathSlider+",
+        "_meta": {
+          "title": "Noise strength"
+        }
+      },
+      "863": {
+        "inputs": {
+          "value": 0
+        },
+        "class_type": "SimpleMathInt+",
+        "_meta": {
+          "title": "Seed Override"
+        }
+      },
+      "864": {
+        "inputs": {
+          "value": 0
+        },
+        "class_type": "SimpleMathInt+",
+        "_meta": {
+          "title": "Seed Override"
+        }
+      },
+      "879": {
+        "inputs": {
+          "upscale_by": [
+            "553",
+            3
+          ],
+          "seed": 888888888888888,
+          "steps": 20,
+          "cfg": 1,
+          "sampler_name": "ddim",
+          "scheduler": "sgm_uniform",
+          "denoise": 0.25,
+          "mode_type": "Linear",
+          "tile_width": [
+            "553",
+            1
+          ],
+          "tile_height": [
+            "553",
+            2
+          ],
+          "mask_blur": 8,
+          "tile_padding": 32,
+          "seam_fix_mode": "None",
+          "seam_fix_denoise": 1,
+          "seam_fix_width": 64,
+          "seam_fix_mask_blur": 8,
+          "seam_fix_padding": 16,
+          "force_uniform_tiles": true,
+          "tiled_decode": false,
+          "image": [
+            "553",
+            0
+          ],
+          "model": [
+            "880",
+            0
+          ],
+          "positive": [
+            "901",
+            0
+          ],
+          "negative": [
+            "551",
+            5
+          ],
+          "vae": [
+            "551",
+            3
+          ],
+          "upscale_model": [
+            "552",
+            0
+          ]
+        },
+        "class_type": "UltimateSDUpscale",
+        "_meta": {
+          "title": "Ultimate SD Upscale"
+        }
+      },
+      "880": {
+        "inputs": {
+          "max_shift": 1.15,
+          "base_shift": 0.5,
+          "width": [
+            "553",
+            1
+          ],
+          "height": [
+            "553",
+            2
+          ],
+          "model": [
+            "551",
+            1
+          ]
+        },
+        "class_type": "ModelSamplingFlux",
+        "_meta": {
+          "title": "ModelSamplingFlux"
+        }
+      },
+      "900": {
+        "inputs": {
+          "input": [
+            "838",
+            1
+          ],
+          "output": ""
+        },
+        "class_type": "Display Int (rgthree)",
+        "_meta": {
+          "title": "Display Int (rgthree)"
+        }
+      },
+      "901": {
+        "inputs": {
+          "conditioning": [
+            "551",
+            4
+          ]
+        },
+        "class_type": "ConditioningZeroOut",
+        "_meta": {
+          "title": "ConditioningZeroOut"
+        }
+      },
+      "902": {
+        "inputs": {
+          "input_mode": "simple",
+          "lora_count": 0,
+          "lora_name_1": "None",
+          "lora_wt_1": 1,
+          "model_str_1": 1,
+          "clip_str_1": 1,
+          "lora_name_2": "None",
+          "lora_wt_2": 1,
+          "model_str_2": 1,
+          "clip_str_2": 1,
+          "lora_name_3": "None",
+          "lora_wt_3": 1,
+          "model_str_3": 1,
+          "clip_str_3": 1,
+          "lora_name_4": "None",
+          "lora_wt_4": 1,
+          "model_str_4": 1,
+          "clip_str_4": 1,
+          "lora_name_5": "None",
+          "lora_wt_5": 1,
+          "model_str_5": 1,
+          "clip_str_5": 1,
+          "lora_name_6": "None",
+          "lora_wt_6": 1,
+          "model_str_6": 1,
+          "clip_str_6": 1,
+          "lora_name_7": "None",
+          "lora_wt_7": 1,
+          "model_str_7": 1,
+          "clip_str_7": 1,
+          "lora_name_8": "None",
+          "lora_wt_8": 1,
+          "model_str_8": 1,
+          "clip_str_8": 1,
+          "lora_name_9": "None",
+          "lora_wt_9": 1,
+          "model_str_9": 1,
+          "clip_str_9": 1,
+          "lora_name_10": "None",
+          "lora_wt_10": 1,
+          "model_str_10": 1,
+          "clip_str_10": 1,
+          "lora_name_11": "None",
+          "lora_wt_11": 1,
+          "model_str_11": 1,
+          "clip_str_11": 1,
+          "lora_name_12": "None",
+          "lora_wt_12": 1,
+          "model_str_12": 1,
+          "clip_str_12": 1,
+          "lora_name_13": "None",
+          "lora_wt_13": 1,
+          "model_str_13": 1,
+          "clip_str_13": 1,
+          "lora_name_14": "None",
+          "lora_wt_14": 1,
+          "model_str_14": 1,
+          "clip_str_14": 1,
+          "lora_name_15": "None",
+          "lora_wt_15": 1,
+          "model_str_15": 1,
+          "clip_str_15": 1,
+          "lora_name_16": "None",
+          "lora_wt_16": 1,
+          "model_str_16": 1,
+          "clip_str_16": 1,
+          "lora_name_17": "None",
+          "lora_wt_17": 1,
+          "model_str_17": 1,
+          "clip_str_17": 1,
+          "lora_name_18": "None",
+          "lora_wt_18": 1,
+          "model_str_18": 1,
+          "clip_str_18": 1,
+          "lora_name_19": "None",
+          "lora_wt_19": 1,
+          "model_str_19": 1,
+          "clip_str_19": 1,
+          "lora_name_20": "None",
+          "lora_wt_20": 1,
+          "model_str_20": 1,
+          "clip_str_20": 1,
+          "lora_name_21": "None",
+          "lora_wt_21": 1,
+          "model_str_21": 1,
+          "clip_str_21": 1,
+          "lora_name_22": "None",
+          "lora_wt_22": 1,
+          "model_str_22": 1,
+          "clip_str_22": 1,
+          "lora_name_23": "None",
+          "lora_wt_23": 1,
+          "model_str_23": 1,
+          "clip_str_23": 1,
+          "lora_name_24": "None",
+          "lora_wt_24": 1,
+          "model_str_24": 1,
+          "clip_str_24": 1,
+          "lora_name_25": "None",
+          "lora_wt_25": 1,
+          "model_str_25": 1,
+          "clip_str_25": 1,
+          "lora_name_26": "None",
+          "lora_wt_26": 1,
+          "model_str_26": 1,
+          "clip_str_26": 1,
+          "lora_name_27": "None",
+          "lora_wt_27": 1,
+          "model_str_27": 1,
+          "clip_str_27": 1,
+          "lora_name_28": "None",
+          "lora_wt_28": 1,
+          "model_str_28": 1,
+          "clip_str_28": 1,
+          "lora_name_29": "None",
+          "lora_wt_29": 1,
+          "model_str_29": 1,
+          "clip_str_29": 1,
+          "lora_name_30": "None",
+          "lora_wt_30": 1,
+          "model_str_30": 1,
+          "clip_str_30": 1,
+          "lora_name_31": "None",
+          "lora_wt_31": 1,
+          "model_str_31": 1,
+          "clip_str_31": 1,
+          "lora_name_32": "None",
+          "lora_wt_32": 1,
+          "model_str_32": 1,
+          "clip_str_32": 1,
+          "lora_name_33": "None",
+          "lora_wt_33": 1,
+          "model_str_33": 1,
+          "clip_str_33": 1,
+          "lora_name_34": "None",
+          "lora_wt_34": 1,
+          "model_str_34": 1,
+          "clip_str_34": 1,
+          "lora_name_35": "None",
+          "lora_wt_35": 1,
+          "model_str_35": 1,
+          "clip_str_35": 1,
+          "lora_name_36": "None",
+          "lora_wt_36": 1,
+          "model_str_36": 1,
+          "clip_str_36": 1,
+          "lora_name_37": "None",
+          "lora_wt_37": 1,
+          "model_str_37": 1,
+          "clip_str_37": 1,
+          "lora_name_38": "None",
+          "lora_wt_38": 1,
+          "model_str_38": 1,
+          "clip_str_38": 1,
+          "lora_name_39": "None",
+          "lora_wt_39": 1,
+          "model_str_39": 1,
+          "clip_str_39": 1,
+          "lora_name_40": "None",
+          "lora_wt_40": 1,
+          "model_str_40": 1,
+          "clip_str_40": 1,
+          "lora_name_41": "None",
+          "lora_wt_41": 1,
+          "model_str_41": 1,
+          "clip_str_41": 1,
+          "lora_name_42": "None",
+          "lora_wt_42": 1,
+          "model_str_42": 1,
+          "clip_str_42": 1,
+          "lora_name_43": "None",
+          "lora_wt_43": 1,
+          "model_str_43": 1,
+          "clip_str_43": 1,
+          "lora_name_44": "None",
+          "lora_wt_44": 1,
+          "model_str_44": 1,
+          "clip_str_44": 1,
+          "lora_name_45": "None",
+          "lora_wt_45": 1,
+          "model_str_45": 1,
+          "clip_str_45": 1,
+          "lora_name_46": "None",
+          "lora_wt_46": 1,
+          "model_str_46": 1,
+          "clip_str_46": 1,
+          "lora_name_47": "None",
+          "lora_wt_47": 1,
+          "model_str_47": 1,
+          "clip_str_47": 1,
+          "lora_name_48": "None",
+          "lora_wt_48": 1,
+          "model_str_48": 1,
+          "clip_str_48": 1,
+          "lora_name_49": "None",
+          "lora_wt_49": 1,
+          "model_str_49": 1,
+          "clip_str_49": 1
+        },
+        "class_type": "LoRA Stacker",
+        "_meta": {
+          "title": "LoRA Stacker"
+        }
+      }
+    },
+    "images": []
+  }
+}
