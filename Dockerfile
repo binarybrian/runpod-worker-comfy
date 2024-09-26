@@ -1,6 +1,7 @@
 # Stage 1: Base image with common dependencies
-#FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
-FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
+#FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 as base
+#FROM nvidia/cuda:12.6.0-cudnn-runtime-ubuntu24.04 as base
 
 # Prevents prompts from packages asking for user input during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,11 +11,56 @@ ENV PIP_PREFER_BINARY=1
 ENV PYTHONUNBUFFERED=1 
 
 # Install Python, git and other necessary tools
-RUN apt-get update && apt-get install -y \
-    python3.10 \
-    python3-pip \
+RUN apt-get -y update && apt-get install -y software-properties-common \
+    && apt-add-repository ppa:ubuntuhandbook1/ffmpeg6 \
+    && apt-get -y update && apt-get -y upgrade && apt-get install -y \
+    cmake \
+    ffmpeg \
+    ghostscript \
     git \
-    wget
+    imagemagick \
+    libasound2-dev \
+    libavcodec58 \
+    libegl-dev \
+    libfreetype6-dev \
+    libfribidi-dev \
+    libharfbuzz-dev \
+    libimagequant-dev \
+    libjpeg-turbo-progs \
+    libjpeg8-dev \
+    liblcms2-dev \
+    libgl1-mesa-dev \
+    libopenjp2-7-dev \
+    libssl-dev \
+    libtiff5-dev \
+    libwebp-dev \
+    libxcb-cursor0 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxkbcommon-x11-0 \
+    meson \
+    netpbm \
+    portaudio19-dev \
+    python3.10 \
+    python3-dev \
+    python3-matplotlib \
+    python3-numpy \
+    python3-opencv \
+    python3-pypdf2 \
+    python3-piexif \
+    python3-pil \
+    python3-pip \
+    python3-setuptools \
+    python3-tk \
+    sudo \
+    tcl8.6-dev \
+    tk8.6-dev \
+    virtualenv \
+    wget \
+    xvfb
 
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
@@ -26,9 +72,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
-RUN pip3 install --upgrade numpy \
-    && pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 \
-    && pip3 install -r requirements.txt
+RUN python3 -m pip install --upgrade pip && pip3 install -r requirements.txt
 
 # Install runpod
 RUN pip3 install runpod requests
@@ -80,6 +124,7 @@ FROM base as nodes
 
 WORKDIR /comfyui
 
+#    git clone --recursive https://github.com/melMass/comfy_mtb custom_nodes/comfy_mtb && \
 
 RUN git clone --recursive https://github.com/binarybrian/Winston custom_nodes/Winston && \
     git clone --recursive https://github.com/rgthree/rgthree-comfy custom_nodes/rgthree-comfy && \
@@ -88,7 +133,6 @@ RUN git clone --recursive https://github.com/binarybrian/Winston custom_nodes/Wi
     git clone --recursive https://github.com/sipherxyz/comfyui-art-venture custom_nodes/comfyui-art-venture && \
     git clone --recursive https://github.com/jags111/efficiency-nodes-comfyui custom_nodes/efficiency-nodes-comfyui && \
     git clone --recursive https://github.com/ssitu/ComfyUI_UltimateSDUpscale custom_nodes/ComfyUI_UltimateSDUpscale && \
-    git clone --recursive https://github.com/melMass/comfy_mtb custom_nodes/comfy_mtb && \
     git clone --recursive https://github.com/cubiq/ComfyUI_essentials custom_nodes/ComfyUI_essentials && \
     git clone --recursive https://github.com/pythongosssss/ComfyUI-Custom-Scripts custom_nodes/ComfyUI-Custom-Scripts && \
     git clone --recursive https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes custom_nodes/ComfyUI_Comfyroll_CustomNodes && \
