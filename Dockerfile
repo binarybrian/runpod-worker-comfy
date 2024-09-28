@@ -8,24 +8,43 @@ ENV PIP_PREFER_BINARY=1
 # Ensures output from python is printed immediately to the terminal without buffering
 ENV PYTHONUNBUFFERED=1 
 
+# sudo apt install libopengl0 -y
 # Install Python, git and other necessary tools
 RUN apt-get update -y && apt-get install -y \
     ffmpeg \
     libgl1-mesa-dev \
-    netpbm \
     python3.10 \
-    python3-matplotlib \
-    python3-numpy \
-    python3-opencv \
-    python3-piexif \
-    python3-pil \
     python3-pip \
     git \
     wget \
     xvfb
 
+#    ffmpeg \
+#    libgl1-mesa-dev \
+#    netpbm \
+#    python3.10 \
+#    python3-anyio \
+#    python3-decorator \
+#    python3-distro \
+#    python3-imageio \
+#    python3-matplotlib \
+#    python3-moviepy \
+#    python3-opencv \
+#    python3-piexif \
+#    python3-pil \
+#    python3-pip \
+#    python3-proglog \
+#    python3-pydantic \
+#    python3-scipy \
+#    python3-sklearn \
+#    python3-requests \
+#    python3-tqdm \
+#    git \
+#    wget \
+#    xvfb
+
 # Clean up to reduce image size
-RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* && cd "$(dirname $(which python3))" && ln -s python3 python && rm pip && ln -s pip3 pip
 
 # Clone ComfyUI repository
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
@@ -34,12 +53,12 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 WORKDIR /comfyui
 
 # Install ComfyUI dependencies
-RUN python3 -m pip install --upgrade pip && \
-    pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121 && \
-    pip3 install -r requirements.txt
+RUN python3 -m pip install --upgrade pip \
+    && python3 -m pip install torch==2.4.0+cu121 torchvision==0.19.0+cu121 torchaudio==2.4.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121 \
+    && python3 -m pip install -r requirements.txt
 
 # Install runpod
-RUN pip3 install runpod requests
+RUN python3 -m pip install runpod requests
 
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./
@@ -79,41 +98,34 @@ RUN mkdir -p models/checkpoints models/vae && \
       wget -O models/clip/t5xxl_fp8_e4m3fn.safetensors https://huggingface.co/comfyanonymous/flux_text_encoders/resolve/main/t5xxl_fp8_e4m3fn.safetensors && \
       wget --header="Authorization: Bearer ${HUGGINGFACE_ACCESS_TOKEN}" -O models/vae/ae.safetensors https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/ae.safetensors; \
     else \
-      #wget -O models/checkpoints/sd_xl_base_1.0.safetensors https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors && \
       touch models/checkpoints/no-checkpoints.txt && \
       touch models/vae/no-vae.txt; \
     fi
+
+#wget -O models/checkpoints/v1-5-pruned.safetensors https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/v1-5-pruned.safetensors && \
+#      wget -O models/vae/diffusion_pytorch_model.fp16.safetensors https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/vae/diffusion_pytorch_model.fp16.safetensors; \
+
 
 # Stage 3: Download nodes
 FROM base as nodes
 
 WORKDIR /comfyui
 
-RUN git clone --recursive https://github.com/giriss/comfy-image-saver custom_nodes/comfy-image-saver && \
-    git clone --recursive https://github.com/sipherxyz/comfyui-art-venture custom_nodes/comfyui-art-venture && \
-    git clone --recursive https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes custom_nodes/ComfyUI_Comfyroll_CustomNodes && \
-    git clone --recursive https://github.com/pythongosssss/ComfyUI-Custom-Scripts custom_nodes/ComfyUI-Custom-Scripts && \
-    git clone --recursive https://github.com/hylarucoder/ComfyUI-Eagle-PNGInfo custom_nodes/ComfyUI-Eagle-PNGInfo && \
-    git clone --recursive https://github.com/cubiq/ComfyUI_essentials custom_nodes/ComfyUI_essentials && \
+RUN git clone --recursive https://github.com/kijai/ComfyUI-CogVideoXWrapper custom_nodes/ComfyUI-CogVideoXWrapper && \
+    git clone --recursive https://github.com/kijai/ComfyUI-KJNodes custom_nodes/ComfyUI-KJNodes && \
     git clone --recursive https://github.com/ltdrdata/ComfyUI-Manager custom_nodes/ComfyUI-Manager && \
-    git clone --recursive https://github.com/ssitu/ComfyUI_UltimateSDUpscale custom_nodes/ComfyUI_UltimateSDUpscale && \
-    git clone --recursive https://github.com/Derfuu/Derfuu_ComfyUI_ModdedNodes custom_nodes/Derfuu_ComfyUI_ModdedNodes && \
-    git clone --recursive https://github.com/jags111/efficiency-nodes-comfyui custom_nodes/efficiency-nodes-comfyui && \
-    git clone --recursive https://github.com/binarybrian/LiberatedHelpers custom_nodes/LiberatedHelpers && \
-    git clone --recursive https://github.com/rgthree/rgthree-comfy custom_nodes/rgthree-comfy && \
-    git clone --recursive https://github.com/twri/sdxl_prompt_styler custom_nodes/sdxl_prompt_styler && \
-    git clone --recursive https://github.com/binarybrian/Winston custom_nodes/Winston && \
-    for dir in custom_nodes/*/; do if [ -f "$dir/requirements.txt" ]; then (cd "$dir" && pip3 install -r requirements.txt) || echo "Failed to install requirements in $dir"; fi; done;
+    git clone --recursive https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite custom_nodes/ComfyUI-VideoHelperSuite
 
 #Stage 4: Upgrade ffmpeg
-FROM base as utils
+#FROM base as utils
 
-WORKDIR /
+#WORKDIR /
 
-RUN wget -O ffmpeg.tar.xz https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-6.0.1-amd64-static.tar.xz \
-    && mkdir -p ffmpeg && tar --strip-components=1 -xf ffmpeg.tar.xz -C ffmpeg
+#RUN wget -O ffmpeg.tar.xz https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-6.0.1-amd64-static.tar.xz \
+#    && mkdir -p ffmpeg && tar --strip-components=1 -xf ffmpeg.tar.xz -C ffmpeg
 
-# Stage 5: Final image
+
+# Stage 4: Final image
 FROM base as final
 
 # Copy models from stage 2 to the final image
@@ -122,8 +134,12 @@ COPY --from=downloader /comfyui/models /comfyui/models
 # Copy custom_nodes from stage 3 to the final image
 COPY --from=nodes /comfyui/custom_nodes /comfyui/custom_nodes
 
+RUN for dir in /comfyui/custom_nodes/*/; do if [ -f "$dir/requirements.txt" ]; then (cd "$dir" && echo "Installing deps for $dir" && python3 -m pip install -r requirements.txt) || echo "Failed to install requirements in $dir"; fi; done && \
+    python3 -m pip install --upgrade diffusers && \
+    python3 -m pip install "numpy<1.25.0"
+
 # Copy ffmpeg from stage 4 to the final image
-COPY --from=utils /ffmpeg /usr/bin
+#COPY --from=utils /ffmpeg /usr/bin
 
 # Start the container
 CMD /start.sh

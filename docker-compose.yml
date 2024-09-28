@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   comfyui:
-    image: binarybrian/runpod-worker-comfy:latest
+    image: binarybrian/runpod-worker-img2vid:latest
     container_name: comfyui-worker
     environment:
       - NVIDIA_VISIBLE_DEVICES=all

@@ -11,7 +11,7 @@ variable "RELEASE_VERSION" {
 }
 
 variable "HUGGINGFACE_ACCESS_TOKEN" {
-  default = ""
+  default = "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"
 }
 
 group "default" {
