@@ -10,7 +10,9 @@ ENV PYTHONUNBUFFERED=1
 
 # sudo apt install libopengl0 -y
 # Install Python, git and other necessary tools
-RUN apt-get update -y && apt-get install -y \
+RUN apt-get -y update && apt-get install -y software-properties-common \
+    && apt-add-repository ppa:ubuntuhandbook1/ffmpeg6 \
+    && apt-get -y update && apt-get -y upgrade && apt-get install -y \
     ffmpeg \
     libgl1-mesa-dev \
     python3.10 \
@@ -18,30 +20,6 @@ RUN apt-get update -y && apt-get install -y \
     git \
     wget \
     xvfb
-
-#    ffmpeg \
-#    libgl1-mesa-dev \
-#    netpbm \
-#    python3.10 \
-#    python3-anyio \
-#    python3-decorator \
-#    python3-distro \
-#    python3-imageio \
-#    python3-matplotlib \
-#    python3-moviepy \
-#    python3-opencv \
-#    python3-piexif \
-#    python3-pil \
-#    python3-pip \
-#    python3-proglog \
-#    python3-pydantic \
-#    python3-scipy \
-#    python3-sklearn \
-#    python3-requests \
-#    python3-tqdm \
-#    git \
-#    wget \
-#    xvfb
 
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* && cd "$(dirname $(which python3))" && ln -s python3 python && rm pip && ln -s pip3 pip
@@ -54,11 +32,11 @@ WORKDIR /comfyui
 
 # Install ComfyUI dependencies
 RUN python3 -m pip install --upgrade pip \
-    && python3 -m pip install torch==2.4.0+cu121 torchvision==0.19.0+cu121 torchaudio==2.4.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121 \
-    && python3 -m pip install -r requirements.txt
+    && pip3 install torch==2.4.0+cu121 torchvision==0.19.0+cu121 torchaudio==2.4.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121 \
+    && pip3 install -r requirements.txt
 
 # Install runpod
-RUN python3 -m pip install runpod requests
+RUN pip3 install runpod requests
 
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./
@@ -116,15 +94,6 @@ RUN git clone --recursive https://github.com/kijai/ComfyUI-CogVideoXWrapper cust
     git clone --recursive https://github.com/ltdrdata/ComfyUI-Manager custom_nodes/ComfyUI-Manager && \
     git clone --recursive https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite custom_nodes/ComfyUI-VideoHelperSuite
 
-#Stage 4: Upgrade ffmpeg
-#FROM base as utils
-
-#WORKDIR /
-
-#RUN wget -O ffmpeg.tar.xz https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-6.0.1-amd64-static.tar.xz \
-#    && mkdir -p ffmpeg && tar --strip-components=1 -xf ffmpeg.tar.xz -C ffmpeg
-
-
 # Stage 4: Final image
 FROM base as final
 
@@ -137,9 +106,6 @@ COPY --from=nodes /comfyui/custom_nodes /comfyui/custom_nodes
 RUN for dir in /comfyui/custom_nodes/*/; do if [ -f "$dir/requirements.txt" ]; then (cd "$dir" && echo "Installing deps for $dir" && python3 -m pip install -r requirements.txt) || echo "Failed to install requirements in $dir"; fi; done && \
     python3 -m pip install --upgrade diffusers && \
     python3 -m pip install "numpy<1.25.0"
-
-# Copy ffmpeg from stage 4 to the final image
-#COPY --from=utils /ffmpeg /usr/bin
 
 # Start the container
 CMD /start.sh

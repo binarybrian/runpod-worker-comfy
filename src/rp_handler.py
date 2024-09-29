@@ -10,13 +10,13 @@ import base64
 from io import BytesIO
 
 # Time to wait between API check attempts in milliseconds
-COMFY_API_AVAILABLE_INTERVAL_MS = 50
+COMFY_API_AVAILABLE_INTERVAL_MS = 100
 # Maximum number of API check attempts
-COMFY_API_AVAILABLE_MAX_RETRIES = 500
+COMFY_API_AVAILABLE_MAX_RETRIES = 25000
 # Time to wait between poll attempts in milliseconds
 COMFY_POLLING_INTERVAL_MS = os.environ.get("COMFY_POLLING_INTERVAL_MS", 500)
 # Maximum number of poll attempts
-COMFY_POLLING_MAX_RETRIES = os.environ.get("COMFY_POLLING_MAX_RETRIES", 1000)
+COMFY_POLLING_MAX_RETRIES = os.environ.get("COMFY_POLLING_MAX_RETRIES", 5000)
 # Host where ComfyUI is running
 COMFY_HOST = "127.0.0.1:8188"
 # Enforce a clean state after each job is done
@@ -235,11 +235,15 @@ def process_output_images(outputs, job_id):
     output_images = {}
 
     for node_id, node_output in outputs.items():
+        print(f"[output.items]node_id:{node_id},node_output:{node_output}")
         if "images" in node_output:
             for image in node_output["images"]:
                 output_images = os.path.join(image["subfolder"], image["filename"])
+        if "gifs" in node_output:
+            for gif in node_output["gifs"]:
+                output_images = os.path.join(gif["subfolder"], gif["filename"])
 
-    print(f"runpod-worker-comfy - image generation is done")
+    print(f"runpod-worker-comfy - image generation is done. output_images: {output_images}")
 
     # expected image output folder
     local_image_path = f"{COMFY_OUTPUT_PATH}/{output_images}"
@@ -287,15 +291,18 @@ def handler(job):
         dict: A dictionary containing either an error message or a success status with generated images.
     """
     job_input = job["input"]
+    print("runpod-worker-comfy - Handler got job")
 
     # Make sure that the input is valid
     validated_data, error_message = validate_input(job_input)
     if error_message:
         return {"error": error_message}
+    print("runpod-worker-comfy - Handler validated input")
 
     # Extract validated data
     workflow = validated_data["workflow"]
     images = validated_data.get("images")
+    print("runpod-worker-comfy - Handler extracted validated input")
 
     # Make sure that the ComfyUI API is available
     check_server(

@@ -12,5 +12,5 @@ services:
       - "8188:8188"
     runtime: nvidia
     volumes:
-      - ./data/comfyui/output:/comfyui/output
-      - ./data/runpod-volume:/runpod-volume
+      - /qpool/temp:/comfyui/output
+      - /qpool/dev/ComfyUI:/runpod-volume
